@@ -1,0 +1,151 @@
+//
+//  SHUBHAM DUTTA
+//
+//---------------------------------------------------------------------------------------------
+//  DMXDetectorMaterials.icc
+//---------------------------------------------------------------------------------------------
+
+  #include "G4NistManager.hh"
+  G4NistManager* nist = G4NistManager::Instance();
+  
+  G4double density,      // density
+    a,                   // atomic mass
+    z;                   // atomic number
+  G4String name,         // name
+    symbol;              // symbol
+  G4int ncomponents;     // n components
+
+
+
+  
+  G4Element* Fe = new G4Element( "Iron",
+                                 "Fe",
+				 z = 26.,
+				 a = 55.85*g/mole );  
+
+    
+  G4Element* Cu = new G4Element( "Copper",
+                                 "Cu",
+				 z = 29.,
+				 a = 63.55*g/mole );
+				 
+   
+  G4Element* C  = new G4Element( "Carbon",
+                                 "C",
+				 z = 6.,
+				 a = 12.011*g/mole );
+				 
+  G4Element* Co = new G4Element( "Cobalt",
+                                 "Co",
+				 z = 27.,
+				 a = 58.9332*g/mole );
+
+
+  G4Element* Al = new G4Element( "Aluminium",
+                                 "Al",
+				 z = 13.,
+				 a = 26.98*g/mole );
+				 
+  
+  G4Element* O  = new G4Element( "Oxygen",
+                                 "O",
+				 z = 8.,
+				 a = 16.00*g/mole );
+
+  G4Element* Si = new G4Element( "Silicon",
+                                 "Si",
+				 z = 14.,
+				 a = 28.09*g/mole );
+				 
+  G4Material* quartz = new G4Material( "quartz",
+                                       density=2.200*g/cm3,
+				       ncomponents=2 );
+  quartz->AddElement(Si, 1);
+  quartz->AddElement(O , 2);
+
+
+
+
+  // air
+  G4Element* N = new G4Element( "Nitrogen",
+                                "N",
+				z = 7.,
+				a = 14.00674*g/mole);
+				
+  G4Material* Air = new G4Material( "AIR",
+                                    1.2929*kg/m3,
+				    2,
+				    kStateGas,
+				    300.00*kelvin,
+				    1.0*atmosphere );
+  Air->AddElement(N, 0.8);
+  Air->AddElement(O, 0.2);
+
+
+
+
+  // vacuum
+  G4Material* vacuum = new G4Material( "VACUUM",
+                                       2.376e-15*g/cm3,
+				       2,
+				       kStateGas,
+				       300.*kelvin,
+				       2.0e-7*bar);
+  vacuum->AddElement(N, 0.8);
+  vacuum->AddElement(O, 0.2);
+
+
+
+  //concrete
+  G4Element* H = new G4Element( "Hydrogen",
+                                "H",
+				z = 1.,
+				a = 1.00794*g/mole );
+				
+  G4Element* Ca = new G4Element( "Calcium",
+                                 "Ca",
+				 z = 20.,
+				 a = 40.078*g/mole );
+				 
+
+
+  // RockMaterial
+  G4Element* Mg=nist->FindOrBuildElement("Mg");
+  G4Element* Na=nist->FindOrBuildElement("Na");
+  G4Element*  K=nist->FindOrBuildElement("K");
+  G4Element* Ti=nist->FindOrBuildElement("Ti");
+  G4Element*  P=nist->FindOrBuildElement("P");
+  G4Element* Mn=nist->FindOrBuildElement("Mn");
+  G4Element*  U=nist->FindOrBuildElement("U");
+  G4Element* Mo=nist->FindOrBuildElement("Mo");
+  G4Element*  S=nist->FindOrBuildElement("S");
+  
+  G4Material* rock = new G4Material( "Rock",
+                                     density=2.85*g/cm3,
+                                     ncomponents = 16 );
+  
+  rock->AddElement( Si, 30.79*perCent);
+  rock->AddElement( O,  48.02*perCent);
+  rock->AddElement( Al, 9.525*perCent);
+  rock->AddElement( Fe, 3.751*perCent);
+  rock->AddElement( Ca, 1.300*perCent);
+  rock->AddElement( Mg, 0.834*perCent);
+  rock->AddElement( Na, 1.187*perCent);
+  rock->AddElement( K,  2.166*perCent);
+  rock->AddElement( Ti, 0.341*perCent);
+  rock->AddElement( P,  0.079*perCent);
+  rock->AddElement( Mn, 0.023*perCent);
+  rock->AddElement( U,  0.004*perCent);
+  rock->AddElement( Mo, 0.002*perCent);
+  rock->AddElement( H,  0.028*perCent);
+  rock->AddElement( S,  0.225*perCent);
+  rock->AddElement( Cu, 1.725*perCent);
+
+
+
+  // assign materials
+       world_mat = vacuum;
+      cavern_mat = rock;
+         lab_mat = Air;
+         pmt_mat = quartz;
+     

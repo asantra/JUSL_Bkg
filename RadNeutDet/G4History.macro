@@ -1,0 +1,51 @@
+/vis/open OGL
+/vis/sceneHandler/create OGL
+/vis/viewer/create ! ! 600
+/vis/viewer/refresh
+/tracking/storeTrajectory 0
+/vis/drawView 70 -90 0. 0. cm 1.5
+/vis/viewer/set/viewpointThetaPhi 70 -90 deg
+/vis/viewer/panTo 0. 0. cm
+/vis/viewer/zoomTo 1.5
+/vis/viewer/dollyTo 0 cm
+/vis/drawVolume
+/vis/scene/create
+/vis/scene/add/volume world
+/vis/sceneHandler/attach
+/vis/viewer/update
+/control/execute alpha.mac
+/control/verbose 1
+/run/verbose 1
+/tracking/verbose 0
+/hits/verbose 1
+/dmx/draw/drawColours standard
+/dmx/draw/drawTracks noscint
+/dmx/draw/drawHits 0
+/dmx/savePmt 1
+/dmx/saveHits 1
+/dmx/gun/verbose 1
+/dmx/gun/particle alpha
+/dmx/gun/energytype Mono
+/dmx/gun/energy 5.486 MeV
+/dmx/gun/angtype direction
+/dmx/gun/direction 0 0 1
+/dmx/gun/type Volume
+/dmx/gun/shape Cylinder
+/dmx/gun/radius 250 um
+/dmx/gun/halfz 10.0 nm
+/dmx/gun/centre 0 0 -302.65 mm
+/dmx/gun/confine americium_phys
+/dmx/hitsfile alpha.out
+/dmx/pmtfile alpha_pmt.out
+/dmx/histogramfile alpha
+/tracking/storeTrajectory 1
+/run/beamOn 1
+/vis/scene/notifyHandlers scene-0
+/vis/scene/notifyHandlers
+/run/beamOn 1 alpha.mac
+/vis/scene/notifyHandlers
+/control/execute alpha.mac
+/control/verbose 1
+/run/verbose 1
+/tracking/verbose 0
+/hits/verbose 1
