@@ -10,65 +10,21 @@
 //
 // PhysicsList header
 // --------------------------------------------------------------
-
+// DMXPhysicsList.hh
 #ifndef DMXPhysicsList_h
 #define DMXPhysicsList_h 1
 
-#include "G4VUserPhysicsList.hh"
-#include "globals.hh"
+#include "FTFP_BERT.hh"  // <--- Important
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
-
-class DMXPhysicsList: public G4VUserPhysicsList
+class DMXPhysicsList : public FTFP_BERT  // <--- Now inherits from FTFP_BERT directly
 {
 public:
   DMXPhysicsList();
-  ~DMXPhysicsList();
-  //  virtual ~DMXPhysicsList();
+  ~DMXPhysicsList() override;
 
-
-public:
-  virtual void SetCuts();
-
-
-protected:
-  // Construct particle and physics
-  virtual void ConstructParticle();
-  virtual void ConstructProcess();
-    
-  // these methods Construct physics processes and register them
-  virtual void ConstructGeneral();
-  virtual void ConstructEM();
-  virtual void ConstructHad();
-  virtual void ConstructOp();
-
-
-  /*
-  // these methods Construct all particles in each category
-  virtual void ConstructAllBosons();
-  virtual void ConstructAllLeptons();
-  virtual void ConstructAllMesons();
-  virtual void ConstructAllBaryons();
-  virtual void ConstructAllIons();
-  virtual void ConstructAllShortLiveds();
-  */
-
-  virtual void AddTransportation();
-
-private:
-  G4int VerboseLevel;
-  G4int OpVerbLevel;
-
-  G4double cutForGamma;
-  G4double cutForElectron;
-  G4double cutForPositron;
-
-  // these methods Construct particles 
-  void ConstructMyBosons();
-  void ConstructMyLeptons();
-  void ConstructMyHadrons();
-  void ConstructMyShortLiveds();
-
+  void SetCuts() override;
 };
 
 #endif
+
+

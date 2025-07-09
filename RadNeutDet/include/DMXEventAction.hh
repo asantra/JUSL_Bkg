@@ -18,6 +18,10 @@
 
 #include <fstream>
 
+#include <vector>
+#include "G4Types.hh"
+
+
 class DMXRunAction;
 class DMXPrimaryGeneratorAction;
 

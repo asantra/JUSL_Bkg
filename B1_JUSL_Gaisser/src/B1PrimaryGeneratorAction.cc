@@ -147,6 +147,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
   in >> x >> y >> z;
 
   z = z * m + (0.5 * depth);
+  
+
 
   //  out << pid << "\t"<< enRnd << "\t" << thRnd << "\t"
   //      << x << "\t" << "\t" << y << G4endl;//Generated values to file
