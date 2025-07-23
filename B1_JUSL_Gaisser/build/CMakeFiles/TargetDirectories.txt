@@ -1,0 +1,8 @@
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/exampleB1.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/B1.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/edit_cache.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/rebuild_cache.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/list_install_components.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/install.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/install/local.dir
+/home/monalisa/JUSL_Bkg/B1_JUSL_Gaisser/build/CMakeFiles/install/strip.dir
