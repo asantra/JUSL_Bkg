@@ -67,7 +67,7 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
   if (thid <= 9)
     fn = "0" + fn;
   /// uranium and thorium components to USDC website, this gives you final neutron flux
-  G4String path = "/home/sayang/JUSL_Simulation/Neutrons/Radiogen/MTInput/Hemisphere/2mThick/SiO2_norm/Comp2/FullSpec_";
+  G4String path = "/home/monalisa/JUSL_Bkg/JUSLFiles/Comp2/FullSpec_";
   path = path + fn + ".dat";
   G4cout << path << G4endl;
 

@@ -71,8 +71,8 @@ B1RunAction::B1RunAction()
   accumulableManager->RegisterAccumulable(fEdep2);
 
   //=========FILES TO STORE FINAL STATES AND PRIMARIES=============//
-  final.open("/home/sayang/JUSL_Simulation/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat",fstream::app);
-  primaries.open("/home/sayang/JUSL_Simulation/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat",fstream::app);
+  final.open("/home/monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat",fstream::app);
+  primaries.open("/home/monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat",fstream::app);
   //out2.open("/home/shubham/G4WORK/Sayan/MuonKinetic.dat");
 
   count=0;
