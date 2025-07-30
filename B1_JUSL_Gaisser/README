@@ -163,7 +163,7 @@
       or
         Idle> /control/execute run1.mac
         ....
-        Idle> exit      /////INTERACTIVE MODE DIDN'T WORK
+        Idle> exit      /////INTERACTIVE MODE DIDN'T WORK (SHOWED SEGMENTATION FAULT)
 
     - Execute exampleB1  in the 'batch' mode from macro files 
       (without visualization)
