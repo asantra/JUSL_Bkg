@@ -48,7 +48,34 @@ def main():
                 histPosX.Fill(posX)
                 histPosY.Fill(posY)
 
-    ### write the root file
+  
+# Create a canvas
+    canvas = ROOT.TCanvas("canvas", "Muon Histograms", 800, 600)
+    canvas.SetGrid()
+
+# --- Energy Plot ---
+    histEnergy.SetLineColor(ROOT.kRed + 1)
+    histEnergy.SetLineWidth(2)
+    histEnergy.Draw()
+    canvas.SaveAs("histEnergy_"+args.t+".png")
+
+# --- PosX Plot ---
+    canvas.Clear()
+    histPosX.SetLineColor(ROOT.kBlue + 1)
+    histPosX.SetLineWidth(2)
+    histPosX.Draw()
+    canvas.SaveAs("histPosX_"+args.t+".png")
+
+# --- PosY Plot ---
+    canvas.Clear()
+    histPosY.SetLineColor(ROOT.kGreen + 2)
+    histPosY.SetLineWidth(2)
+    histPosY.Draw()
+    canvas.SaveAs("histPosY_"+args.t+".png")
+
+    print("Histograms plotted and saved.")
+
+
     outRoot.Write()
     outRoot.Close()
 

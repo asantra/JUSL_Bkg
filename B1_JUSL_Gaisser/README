@@ -149,7 +149,8 @@
    according to the Geant4 configuration or it can be done explicitly via 
    the third argument of the G4UIExecutive constructor (see exampleB4a.cc). 
  
- C- HOW TO RUN
+ C- HOW TO RUN 
+ //////// (**Note**: The interactive mode with visualization (`./exampleB1`) will only work if Geant4 is built with OpenGL visualization support. If you encounter a segmentation fault, use the batch mode instead:) ////////
 
     - Execute exampleB1 in the 'interactive mode' with visualization:
         % ./exampleB1
@@ -162,11 +163,11 @@
       or
         Idle> /control/execute run1.mac
         ....
-        Idle> exit
+        Idle> exit      /////INTERACTIVE MODE DIDN'T WORK
 
     - Execute exampleB1  in the 'batch' mode from macro files 
       (without visualization)
         % ./exampleB1 run2.mac
-        % ./exampleB1 exampleB1.in > exampleB1.out
+        % ./exampleB1 exampleB1.in > exampleB1.out        //////// BATCH MODE WORKED 
 
 	
