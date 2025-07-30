@@ -162,8 +162,6 @@
      final.open("/home/sayang/JUSL_Simulation/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat", fstream::app);
      primaries.open("/home/sayang/JUSL_Simulation/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat", fstream::app);
 
-     
-
  
  D- HOW TO RUN 
  (**Note**: The interactive mode with visualization (`./exampleB1`) will only work if Geant4 is built with OpenGL visualization support. If you encounter a segmentation fault, use the batch mode instead:)
