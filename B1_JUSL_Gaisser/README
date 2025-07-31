@@ -159,8 +159,8 @@
 
    - In B1_JUSL_Gaisser/src/B1RunAction.cc : // Replace both paths with the location where you want the output files to be saved.
 
-     final.open("/home/sayang/JUSL_Simulation/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat", fstream::app);
-     primaries.open("/home/sayang/JUSL_Simulation/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat", fstream::app);
+     final.open("/home/monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat", fstream::app);
+     primaries.open("/home/monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat", fstream::app);
 
  
  D- HOW TO RUN 
