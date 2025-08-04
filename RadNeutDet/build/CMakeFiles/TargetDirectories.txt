@@ -1,8 +1,0 @@
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/DMX.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/underground_physics.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/edit_cache.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/rebuild_cache.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/list_install_components.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/install.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/install/local.dir
-/Users/arkasantra/arka/BkgJUSL/JUSL_sims/RadNeutDet/build/CMakeFiles/install/strip.dir
