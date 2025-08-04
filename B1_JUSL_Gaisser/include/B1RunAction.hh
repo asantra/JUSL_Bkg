@@ -33,62 +33,66 @@
 #include "G4UserRunAction.hh"
 #include "G4Accumulable.hh"
 #include "globals.hh"
-#include <fstream> 
+#include <fstream>
 #include <vector>
 
 class G4Run;
 
 /// Run action class
 ///
-/// In EndOfRunAction(), it calculates the dose in the selected volume 
+/// In EndOfRunAction(), it calculates the dose in the selected volume
 /// from the energy deposit accumulated via stepping and event actions.
 /// The computed dose is then printed on the screen.
 
 class B1RunAction : public G4UserRunAction
 {
-  public:
-    B1RunAction();
-    virtual ~B1RunAction();
+public:
+  B1RunAction();
+  virtual ~B1RunAction();
 
-    // virtual G4Run* GenerateRun();
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void   EndOfRunAction(const G4Run*);
+  // B1RunAction(G4int value) : G4UserRunAction(), myValue(value) {}
 
-    void AddEdep (G4double edep);
+  // virtual G4Run* GenerateRun();
+  virtual void BeginOfRunAction(const G4Run *);
+  virtual void EndOfRunAction(const G4Run *);
+
+  // Add a user-defined value to the run action
+  // void BeginOfRunAction(const G4Run *) override;
+
+  void AddEdep(G4double edep);
 
   std::ofstream final;
   std::ofstream primaries;
   std::ofstream out2;
 
-  std::vector <int> fpID;
-  std::vector <int> feID;
-  std::vector <int> ftID;
-  std::vector <double> En;
-  std::vector <double> Edec;
-  std::vector <double> thet;
-  std::vector <double> phi;
-  std::vector <double> xp;
-  std::vector <double> yp;
-  std::vector <double> zp;
-  std::vector <double> xv;
-  std::vector <double> yv;
-  std::vector <double> zv;
+  std::vector<int> fpID;
+  std::vector<int> feID;
+  std::vector<int> ftID;
+  std::vector<double> En;
+  std::vector<double> Edec;
+  std::vector<double> thet;
+  std::vector<double> phi;
+  std::vector<double> xp;
+  std::vector<double> yp;
+  std::vector<double> zp;
+  std::vector<double> xv;
+  std::vector<double> yv;
+  std::vector<double> zv;
 
-  std::vector <int> Pid;
-  std::vector <double> GunE;
-  std::vector <double> ZeTh;
-  std::vector <double> GunX;
-  std::vector <double> GunY;
-
+  std::vector<int> Pid;
+  std::vector<double> GunE;
+  std::vector<double> ZeTh;
+  std::vector<double> GunX;
+  std::vector<double> GunY;
 
   double arr1[100], arr2[100];
 
   G4int count;
 
-  private:
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
+private:
+  G4Accumulable<G4double> fEdep;
+  G4Accumulable<G4double> fEdep2;
+  G4int myValue; // User-defined value
 };
 
 #endif
-
