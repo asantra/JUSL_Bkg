@@ -67,7 +67,7 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
   if (thid <= 9)
     fn = "0" + fn;
   /// uranium and thorium components to USDC website, this gives you final neutron flux
-  G4String path = "/home/monalisa/JUSL_Bkg/JUSLFiles/Comp2/FullSpec_";
+  G4String path = "/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Comp2/FullSpec_";
   path = path + fn + ".dat";
   G4cout << path << G4endl;
 
@@ -83,11 +83,11 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
   //  h1=(TH1F*)f->Get("En_spec_full");
   //  max=h1->GetMaximum();
 
-  energySpectrum.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeuSpec_generated.dat",
+  energySpectrum.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeuSpec_generated.dat",
                       std::ios::out | std::fstream::app);
-  particlePosition.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticlePostion_generated.dat",
+  particlePosition.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticlePostion_generated.dat",
                         std::ios::out | std::fstream::app);
-  particleDirection.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticleDirection_generated.dat",
+  particleDirection.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticleDirection_generated.dat",
                          std::ios::out | std::fstream::app);
   i = 0;
   pid = 2112;
