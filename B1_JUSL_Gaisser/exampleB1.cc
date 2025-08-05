@@ -102,7 +102,7 @@ int main(int argc, char **argv)
   // runManager->SetUserAction(new B1RunAction());
 
   // Pass variable to RunAction
-  runManager->SetUserAction(new B1RunAction(userValue));
+  //runManager->SetUserAction(new B1RunAction(userValue));
 
   // Initialize visualization
   //
