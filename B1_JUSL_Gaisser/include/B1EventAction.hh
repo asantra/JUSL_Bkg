@@ -32,9 +32,11 @@
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
+#include "G4Run.hh"
 
 class B1RunAction;
 class B1PrimaryGeneratorAction;
+class G4Run;
 
 /// Event action class
 ///

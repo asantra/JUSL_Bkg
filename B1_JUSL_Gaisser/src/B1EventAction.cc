@@ -63,8 +63,11 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
   eid  = G4EventManager::GetEventManager()
           ->GetConstCurrentEvent()->GetEventID();
 
+  G4int runID = G4RunManager::GetRunManager()->GetCurrentRun()->GetRunID();
+
   thid = G4Threading::G4GetThreadId();
-  G4cout << "Begin of event " << eid
+  G4cout << "# Begin of event " << eid
+         << " of run " << runID 
          << " of Thread " << thid << G4endl;
 
   fEdep1 = 0.;
