@@ -54,7 +54,6 @@ B1RunAction::B1RunAction()
       fEdep(0.),
       fEdep2(0.)
 {
-
   // add new units for dose
   //
   const G4double milligray = 1.e-3 * gray;
@@ -74,7 +73,7 @@ B1RunAction::B1RunAction()
 
   G4int id = B1RunConfig::Instance()->GetRunID();
   G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
-  G4cout << "B1RunAction: Received run ID = " << id << G4endl;
+  //G4cout << "B1RunAction: Received run ID = " << id << G4endl;
   // G4cout << "User-provided value: " << myValue << G4endl;
   //=========FILES TO STORE FINAL STATES AND PRIMARIES=============//
   final.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat", fstream::app);
@@ -88,6 +87,7 @@ B1RunAction::B1RunAction()
     arr1[i] = 0.0;
     arr2[i] = 0.0;
   }
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -100,11 +100,16 @@ B1RunAction::~B1RunAction()
 
 void B1RunAction::BeginOfRunAction(const G4Run *)
 {
+  // Set Run ID
+  const G4Run* runptr = G4RunManager::GetRunManager()->GetCurrentRun();
+  ((G4Run*)(runptr))->SetRunID(B1RunConfig::Instance()->GetRunID());
+  G4cout << "### Current run ID : " << runptr->GetRunID() << G4endl;
+
   // Time based random seed for each run
   G4cout << "====BEGIN OF RUN===" << G4endl;
   G4int id = B1RunConfig::Instance()->GetRunID();
   G4cout << "------@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
-  G4cout << "B1RunAction: Received run ID = " << id << G4endl;
+  //G4cout << "B1RunAction: Received run ID = " << id << G4endl;
   long seeds[2];
   time_t systime = time(NULL);
   seeds[0] = (long)systime;
