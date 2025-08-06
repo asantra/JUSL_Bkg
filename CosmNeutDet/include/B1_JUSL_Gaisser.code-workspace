@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../B1_JUSL_Gaisser"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../RadNeutDet"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"array": "cpp",
+			"string_view": "cpp"
+		}
+	}
+}
