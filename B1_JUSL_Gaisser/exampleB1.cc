@@ -61,21 +61,13 @@ int main(int argc, char **argv)
     ui = new G4UIExecutive(argc, argv);
   }
 
-  // // Example: ./example 42
-  // G4int userValue = 0;
-  // if (argc > 2)
-  // {
-  //   userValue = std::stoi(argv[2]);
-  //   G4cout << "I got the  user-defined value: " << userValue << G4endl;
-  // }
-
   // Choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
 
   // Construct the default run manager
   //
 #ifdef G4MULTITHREADED
-  G4MTRunManager* runManager = new G4MTRunManager;
+  G4MTRunManager *runManager = new G4MTRunManager;
   runManager->SetNumberOfThreads(4);
 #else
   G4RunManager *runManager = new G4RunManager;
@@ -97,12 +89,6 @@ int main(int argc, char **argv)
 
   // User action initialization
   runManager->SetUserInitialization(new B1ActionInitialization());
-
-  /// added to get the variable from mac files
-  // runManager->SetUserAction(new B1RunAction());
-
-  // Pass variable to RunAction
-  //runManager->SetUserAction(new B1RunAction(userValue));
 
   // Initialize visualization
   //

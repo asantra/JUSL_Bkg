@@ -73,12 +73,11 @@ B1RunAction::B1RunAction()
   accumulableManager->RegisterAccumulable(fEdep2);
 
   G4int id = B1RunConfig::Instance()->GetRunID();
-  G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
-  G4cout << "B1RunAction: Received run ID = " << id << G4endl;
-  // G4cout << "User-provided value: " << myValue << G4endl;
+  // G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
+  // G4cout << "B1RunAction: Received run ID = " << id << G4endl;
   //=========FILES TO STORE FINAL STATES AND PRIMARIES=============//
-  final.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat", fstream::app);
-  primaries.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat", fstream::app);
+  final.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
+  primaries.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
   // out2.open("/home/shubham/G4WORK/Sayan/MuonKinetic.dat");
 
   count = 0;
@@ -101,10 +100,6 @@ B1RunAction::~B1RunAction()
 void B1RunAction::BeginOfRunAction(const G4Run *)
 {
   // Time based random seed for each run
-  G4cout << "====BEGIN OF RUN===" << G4endl;
-  G4int id = B1RunConfig::Instance()->GetRunID();
-  G4cout << "------@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
-  G4cout << "B1RunAction: Received run ID = " << id << G4endl;
   long seeds[2];
   time_t systime = time(NULL);
   seeds[0] = (long)systime;
