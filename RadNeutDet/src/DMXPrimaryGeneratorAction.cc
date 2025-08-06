@@ -85,7 +85,7 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
 
   energySpectrum.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeuSpec_generated.dat",
                       std::ios::out | std::fstream::app);
-  particlePosition.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticlePostion_generated.dat",
+  particlePosition.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticlePosition_generated.dat",
                         std::ios::out | std::fstream::app);
   particleDirection.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticleDirection_generated.dat",
                          std::ios::out | std::fstream::app);
