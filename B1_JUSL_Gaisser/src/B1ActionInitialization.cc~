@@ -24,75 +24,57 @@
 // ********************************************************************
 //
 //
-/// \file B1RunAction.hh
-/// \brief Definition of the B1RunAction class
+/// \file B1ActionInitialization.cc
+/// \brief Implementation of the B1ActionInitialization class
 
-#ifndef B1RunAction_h
-#define B1RunAction_h 1
-
-#include "G4UserRunAction.hh"
-#include "G4Accumulable.hh"
-#include "globals.hh"
+#include "B1ActionInitialization.hh"
+#include "B1PrimaryGeneratorAction.hh"
+#include "B1RunAction.hh"
+#include "B1EventAction.hh"
+#include "B1SteppingAction.hh"
 #include <fstream>
-#include <vector>
 
-class G4Run;
+using namespace std;
 
-/// Run action class
-///
-/// In EndOfRunAction(), it calculates the dose in the selected volume
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class B1RunAction : public G4UserRunAction
+B1ActionInitialization::B1ActionInitialization()
+ : G4VUserActionInitialization()
 {
-public:
-  B1RunAction();
-  virtual ~B1RunAction();
+  G4cout<<"===========INSIDE ACTION INITIALISATION========="<<G4endl;
+  in=new ifstream();
+  in->open("/home/shubham/G4WORK/B1_dEdx/src/Muons_high.dat");
+}
 
-  // B1RunAction(G4int value) : G4UserRunAction(), myValue(value) {}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  // virtual G4Run* GenerateRun();
-  virtual void BeginOfRunAction(const G4Run *);
-  virtual void EndOfRunAction(const G4Run *);
+B1ActionInitialization::~B1ActionInitialization()
+{}
 
-  // Add a user-defined value to the run action
-  // void BeginOfRunAction(const G4Run *) override;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  void AddEdep(G4double edep);
+void B1ActionInitialization::BuildForMaster() const
+{
+  B1RunAction* runAction = new B1RunAction;
+  SetUserAction(runAction);
+}
 
-  std::ofstream final;
-  std::ofstream primaries;
-  std::ofstream out2;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  std::vector<int> fpID;
-  std::vector<int> feID;
-  std::vector<int> ftID;
-  std::vector<double> En;
-  std::vector<double> Edec;
-  std::vector<double> thet;
-  std::vector<double> phi;
-  std::vector<double> xp;
-  std::vector<double> yp;
-  std::vector<double> zp;
-  std::vector<double> xv;
-  std::vector<double> yv;
-  std::vector<double> zv;
+void B1ActionInitialization::Build() const
+{
+  B1PrimaryGeneratorAction *prim=new B1PrimaryGeneratorAction;
+  prim->SetFilePointer(in);
+  SetUserAction(prim);
 
-  std::vector<int> Pid;
-  std::vector<double> GunE;
-  std::vector<double> ZeTh;
-  std::vector<double> GunX;
-  std::vector<double> GunY;
 
-  double arr1[100], arr2[100];
+  B1RunAction* runAction = new B1RunAction;
+  SetUserAction(runAction);
+  
+  B1EventAction* eventAction = new B1EventAction(runAction);
+  SetUserAction(eventAction);
+  
+  SetUserAction(new B1SteppingAction(eventAction,runAction));
+}  
 
-  G4int count;
-
-private:
-  G4Accumulable<G4double> fEdep;
-  G4Accumulable<G4double> fEdep2;
-  G4int myValue; // User-defined value
-};
-
-#endif
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

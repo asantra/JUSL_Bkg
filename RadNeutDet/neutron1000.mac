@@ -37,8 +37,8 @@
 #/dmx/gun/centre 0 0 -5 mm
 #/dmx/gun/confine physVolScint
 
-/vis/scene/add/trajectories smooth
-/vis/modeling/trajectories/create/drawByParticleID
-
+#/vis/scene/add/trajectories smooth
+#/vis/modeling/trajectories/create/drawByParticleID
+/run/printProgress 100
 /run/beamOn 1000
 

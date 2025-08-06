@@ -63,7 +63,7 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   G4String fn = to_string(thid);
   if (thid <= 9)
     fn = "0" + fn;
-  G4String path = "/home/monalisa/JUSL_Bkg/JUSLFiles/compute5/terrain_Gen_21_";
+  G4String path = "/Users/arkasantra/arka/BkgJUSL/JUSLFiles/compute5/terrain_Gen_21_";
   path = path + fn + ".dat";
   G4cout << path << G4endl;
 
@@ -147,8 +147,6 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
   in >> x >> y >> z;
 
   z = z * m + (0.5 * depth);
-  
-
 
   //  out << pid << "\t"<< enRnd << "\t" << thRnd << "\t"
   //      << x << "\t" << "\t" << y << G4endl;//Generated values to file

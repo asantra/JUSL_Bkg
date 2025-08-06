@@ -24,75 +24,55 @@
 // ********************************************************************
 //
 //
-/// \file B1RunAction.hh
-/// \brief Definition of the B1RunAction class
+// --------------------------------------------------------------
+//   GEANT 4 - Underground Dark Matter Detector Advanced Example
+//
+//      For information related to this code contact: Alex Howard
+//      e-mail: alexander.howard@cern.ch
+// --------------------------------------------------------------
+// Comments
+//
+//                  Underground Advanced
+//               by A. Howard and H. Araujo 
+//                    (27th November 2001)
+//
+// StackingAction header
+// --------------------------------------------------------------
 
-#ifndef B1RunAction_h
-#define B1RunAction_h 1
+#ifndef DMXStackingAction_H
+#define DMXStackingAction_H 1
 
-#include "G4UserRunAction.hh"
-#include "G4Accumulable.hh"
 #include "globals.hh"
-#include <fstream>
-#include <vector>
+#include "G4UserStackingAction.hh"
 
-class G4Run;
 
-/// Run action class
-///
-/// In EndOfRunAction(), it calculates the dose in the selected volume
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
+class DMXStackingActionMessenger;
+class G4Navigator;
+class G4Track;
 
-class B1RunAction : public G4UserRunAction
-{
-public:
-  B1RunAction();
-  virtual ~B1RunAction();
+class DMXStackingAction : public G4UserStackingAction {
 
-  // B1RunAction(G4int value) : G4UserRunAction(), myValue(value) {}
+  public:
+    DMXStackingAction();
+    virtual ~DMXStackingAction();
 
-  // virtual G4Run* GenerateRun();
-  virtual void BeginOfRunAction(const G4Run *);
-  virtual void EndOfRunAction(const G4Run *);
+  public:
+    virtual G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track* aTrack);
+    virtual void NewStage();
+    virtual void PrepareNewEvent();
 
-  // Add a user-defined value to the run action
-  // void BeginOfRunAction(const G4Run *) override;
+    DMXStackingActionMessenger* theMessenger;
 
-  void AddEdep(G4double edep);
 
-  std::ofstream final;
-  std::ofstream primaries;
-  std::ofstream out2;
+  private:
+    G4bool killGammasFlag;
 
-  std::vector<int> fpID;
-  std::vector<int> feID;
-  std::vector<int> ftID;
-  std::vector<double> En;
-  std::vector<double> Edec;
-  std::vector<double> thet;
-  std::vector<double> phi;
-  std::vector<double> xp;
-  std::vector<double> yp;
-  std::vector<double> zp;
-  std::vector<double> xv;
-  std::vector<double> yv;
-  std::vector<double> zv;
+    G4Navigator* gNavigator; 
 
-  std::vector<int> Pid;
-  std::vector<double> GunE;
-  std::vector<double> ZeTh;
-  std::vector<double> GunX;
-  std::vector<double> GunY;
+  public:
+    inline void SetKillGammasFlag(G4bool val)     {killGammasFlag  = val;};
 
-  double arr1[100], arr2[100];
-
-  G4int count;
-
-private:
-  G4Accumulable<G4double> fEdep;
-  G4Accumulable<G4double> fEdep2;
-  G4int myValue; // User-defined value
 };
 
 #endif
+
