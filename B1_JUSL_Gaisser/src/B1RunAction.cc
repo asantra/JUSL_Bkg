@@ -76,8 +76,8 @@ B1RunAction::B1RunAction()
   // G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
   // G4cout << "B1RunAction: Received run ID = " << id << G4endl;
   //=========FILES TO STORE FINAL STATES AND PRIMARIES=============//
-  final.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
-  primaries.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
+  final.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
+  primaries.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
   // out2.open("/home/shubham/G4WORK/Sayan/MuonKinetic.dat");
 
   count = 0;

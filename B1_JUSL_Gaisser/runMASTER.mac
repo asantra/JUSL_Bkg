@@ -5,7 +5,7 @@
 #
 #/run/numberOfWorkers 4
 
-/myapp/setRunID 17
+/myapp/setRunID IIIII
 /run/initialize
 #
 /control/verbose 2
