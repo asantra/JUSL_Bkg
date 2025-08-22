@@ -54,13 +54,13 @@ void DMXRunAction::BeginOfRunAction(const G4Run* aRun)
 //  pmtHitSet.open("/home/sayan/JUSL_Simulation/Neutron/Shielding/NeutronHitSet.dat",
 //		 std::ios::out | std::ios::trunc);
 
-  NeutronEnTr.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronTrSpec.dat",
+  NeutronEnTr.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronTrSpec.dat",
                    std::ios::out | std::fstream::app);
-  NeutronEnDet.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronDetSpec.dat",
+  NeutronEnDet.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronDetSpec.dat",
                     std::ios::out | std::fstream::app);
-  NeutronBack.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronBackScatter.dat",
+  NeutronBack.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronBackScatter.dat",
                    std::ios::out | std::fstream::app);
-  NeutronDetBack.open("/home/sayang/JUSL_Simulation/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/DetBackScatter.dat",
+  NeutronDetBack.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/DetBackScatter.dat",
                    std::ios::out | std::fstream::app);
 
 

@@ -41,6 +41,8 @@
 #include <fstream>
 #include "G4PhysicalConstants.hh"
 #include "G4Threading.hh"
+#include "TFile.h"
+#include "TH1D.h"
 // #include "TMath.hh"
 #include <cmath>
 
@@ -56,7 +58,8 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   G4int n_particle = 1;
   fParticleGun = new G4ParticleGun(n_particle);
   // z=556.0*m;
-  depth = 554.0 * m;
+  depth = 815.0 * m;   // detector depth
+  injDepth = 555.0 * m;  // injection depth
 
   G4int thid = G4Threading::G4GetThreadId();
   // G4cout<< "Thread Id = " << thid << G4endl;
@@ -107,6 +110,16 @@ G4double B1PrimaryGeneratorAction::Gais(G4double en_val, G4double th_val)
   return val11;
 }
 
+TFile *fIn = new TFile("/home/slab/Monalisa/JUSL_Bkg/MakingPlots/preliminaryHistograms_Muons_secondary.root", "READ");
+TH1D *hEnergy = (TH1D*)fIn->Get("histEnergy");
+G4double B1PrimaryGeneratorAction::Custom_flux(G4double en_val){
+  // Custom flux obtained from a histogram
+  G4int binNumber = hEnergy->FindBin(en_val);
+  G4double val11 = hEnergy->GetBinContent(binNumber);
+  G4cout << "en_val: " << en_val << " bins :" << binNumber << " content: " << val11 << G4endl;
+  return val11;
+}
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
@@ -120,7 +133,9 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 
   //******FOR TAGGING GAISSER FORMULAR*****//
   //*****COMMET WHEN TESTING FOR VERTICAL PROPAGATION*****//
-  G4double val_act = 0.0;
+  /* G4double val_act = 0.0;
+
+  /// this was using Gaisser formula at the MSL
   do
   {
     enRnd = 400.0 + (G4UniformRand() * (15000 - 400));
@@ -128,7 +143,17 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
     valRnd = 0.0 + (G4UniformRand() * (3.0 * pow(10, -9)));  // most likely vertical intensity, DO CHECK
 
     val_act = Gais(enRnd, thRnd);
-  } while (valRnd >= val_act);
+  } while (valRnd >= val_act); */
+
+  // this is for the custom flux at -550m 
+  G4double val_act = 0.0;
+  do
+  {
+    enRnd = 400.0 + (G4UniformRand() * (15000 - 400));
+    valRnd = 0.0 + (G4UniformRand() * (3.0 * pow(10, -9)));  // DO CHECK
+
+    val_act = Custom_flux(enRnd);
+  } while (valRnd >= val_act); 
   //*********************************************//
 
   // mu+/mu- ratio implementation
@@ -146,7 +171,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 
   in >> x >> y >> z;
 
-  z = z * m + (0.5 * depth);
+  //z = z * m + (0.5 * depth);
+  z = z*m + (0.5 * depth - injDepth);
 
   //  out << pid << "\t"<< enRnd << "\t" << thRnd << "\t"
   //      << x << "\t" << "\t" << y << G4endl;//Generated values to file
@@ -244,5 +270,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 
   energy_pri = fParticleGun->GetParticleEnergy();
 }
+// delete hEnergy;
+// fIn->Close();
+// delete fIn;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

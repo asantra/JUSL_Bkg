@@ -1,13 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "../../B1_JUSL_Gaisser"
-		},
-		{
-			"path": ".."
-		},
-		{
-			"path": "../../RadNeutDet"
+			"path": "../src"
 		}
 	],
 	"settings": {

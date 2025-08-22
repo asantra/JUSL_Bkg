@@ -113,6 +113,9 @@ void B1RunAction::BeginOfRunAction(const G4Run *)
   // reset accumulables to their initial values
   G4AccumulableManager *accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
+
+  // Print injection and detector depth info
+  G4cout << "Injection Depth = 555 m, Detector Depth = 815 m" << G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
