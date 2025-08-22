@@ -115,7 +115,7 @@ void B1RunAction::BeginOfRunAction(const G4Run *)
   accumulableManager->Reset();
 
   // Print injection and detector depth info
-  G4cout << "Injection Depth = 555 m, Detector Depth = 815 m" << G4endl;
+  //G4cout << "Injection Depth = 555 m, Detector Depth = 815 m" << G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

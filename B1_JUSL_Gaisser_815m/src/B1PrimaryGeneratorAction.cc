@@ -57,6 +57,7 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
 {
   G4int n_particle = 1;
   fParticleGun = new G4ParticleGun(n_particle);
+
   // z=556.0*m;
   depth = 815.0 * m;   // detector depth
   injDepth = 555.0 * m;  // injection depth
@@ -109,14 +110,25 @@ G4double B1PrimaryGeneratorAction::Gais(G4double en_val, G4double th_val)
 
   return val11;
 }
+// G4int thid = G4Threading::G4GetThreadId();
+// // G4cout<< "Thread Id = " << thid << G4endl;
+// G4String fn = to_string(thid);
+// if (thid <= 9)
+//   fn = "0" + fn;
 
-TFile *fIn = new TFile("/home/slab/Monalisa/JUSL_Bkg/MakingPlots/preliminaryHistograms_Muons_secondary.root", "READ");
+// G4String path = "/home/slab/Monalisa/JUSL_Bkg/MakingPlots/FluxHistogram/preliminaryHistograms_Muons_secondary_";
+// path = path + fn + ".root";
+// G4cout << "root file: " << path << G4endl;
+
+TFile *fIn = new TFile("/home/slab/Monalisa/JUSL_Bkg/MakingPlots/FluxHistogram/preliminaryHistograms_Muons_secondary_00.root", "READ");
 TH1D *hEnergy = (TH1D*)fIn->Get("histEnergy");
+
 G4double B1PrimaryGeneratorAction::Custom_flux(G4double en_val){
   // Custom flux obtained from a histogram
+  
   G4int binNumber = hEnergy->FindBin(en_val);
   G4double val11 = hEnergy->GetBinContent(binNumber);
-  G4cout << "en_val: " << en_val << " bins :" << binNumber << " content: " << val11 << G4endl;
+  // G4cout << "en_val: " << en_val << " bins :" << binNumber << " content: " << val11 << G4endl;
   return val11;
 }
 
@@ -273,5 +285,5 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 // delete hEnergy;
 // fIn->Close();
 // delete fIn;
-
+  
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -48,6 +48,7 @@
 #include "Randomize.hh"
 #include "B1RunMessenger.hh"
 #include "B1RunAction.hh"
+#include "TROOT.h"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -67,6 +68,7 @@ int main(int argc, char **argv)
   // Construct the default run manager
   //
 #ifdef G4MULTITHREADED
+  ROOT::EnableThreadSafety();
   G4MTRunManager *runManager = new G4MTRunManager;
   runManager->SetNumberOfThreads(4);
 #else
