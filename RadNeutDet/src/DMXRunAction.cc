@@ -49,8 +49,8 @@ void DMXRunAction::BeginOfRunAction(const G4Run *aRun)
   G4Random::setTheSeeds(seeds);
 
   G4int id = DMXRunConfig::Instance()->GetRunID();
-  G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
-  G4cout << "DMXRunAction: Received run ID = " << id << G4endl;
+  // G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
+  // G4cout << "DMXRunAction: Received run ID = " << id << G4endl;
 
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
@@ -61,13 +61,13 @@ void DMXRunAction::BeginOfRunAction(const G4Run *aRun)
   //  pmtHitSet.open("/home/sayan/JUSL_Simulation/Neutron/Shielding/NeutronHitSet.dat",
   //		 std::ios::out | std::ios::trunc);
 
-  NeutronEnTr.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronTrSpec_" + std::to_string(id) + ".dat",
+  NeutronEnTr.open("/Users/arkasantra/arka/BkgJUSL/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronTrSpec_" + std::to_string(id) + ".dat",
                    std::ios::out | std::fstream::app);
-  NeutronEnDet.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronDetSpec_" + std::to_string(id) + ".dat",
+  NeutronEnDet.open("/Users/arkasantra/arka/BkgJUSL/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronDetSpec_" + std::to_string(id) + ".dat",
                     std::ios::out | std::fstream::app);
-  NeutronBack.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronBackScatter_" + std::to_string(id) + ".dat",
+  NeutronBack.open("/Users/arkasantra/arka/BkgJUSL/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeutronBackScatter_" + std::to_string(id) + ".dat",
                    std::ios::out | std::fstream::app);
-  NeutronDetBack.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/DetBackScatter_" + std::to_string(id) + ".dat",
+  NeutronDetBack.open("/Users/arkasantra/arka/BkgJUSL/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/DetBackScatter_" + std::to_string(id) + ".dat",
                       std::ios::out | std::fstream::app);
 
   G4cout << "### Run " << aRun->GetRunID() << " start" << G4endl;
