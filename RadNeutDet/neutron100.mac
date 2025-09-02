@@ -9,13 +9,12 @@
 
 # multi-threading
 #/run/numberOfThreads 1
-
 # verbosities
 /control/verbose 1
 /run/verbose 1
 /tracking/verbose 0
 #/hits/verbose 1
-
+/myapp/setRunID 4
 # gun: particle
 #/gun/verbose 0
 /gun/particle neutron
@@ -37,8 +36,7 @@
 #/dmx/gun/centre 0 0 -5 mm
 #/dmx/gun/confine physVolScint
 
-/vis/scene/add/trajectories smooth
-/vis/modeling/trajectories/create/drawByParticleID
-
+#/vis/scene/add/trajectories smooth
+#/vis/modeling/trajectories/create/drawByParticleID
 /run/beamOn 100
 

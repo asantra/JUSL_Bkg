@@ -12,6 +12,7 @@
 // #include "TH1.h"
 
 #include "DMXPrimaryGeneratorAction.hh"
+#include "DMXRunConfig.hh"
 // #include "DMXRunAction.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
@@ -83,11 +84,15 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
   //  h1=(TH1F*)f->Get("En_spec_full");
   //  max=h1->GetMaximum();
 
-  energySpectrum.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeuSpec_generated.dat",
+  G4int id = DMXRunConfig::Instance()->GetRunID();
+  G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
+  G4cout << "DMXPrimaryGeneratorAction: Received run ID = " << id << G4endl;
+
+  energySpectrum.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/NeuSpec_generated_" + std::to_string(id) + ".dat",
                       std::ios::out | std::fstream::app);
-  particlePosition.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticlePostion_generated.dat",
+  particlePosition.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticlePostion_generated_" + std::to_string(id) + ".dat",
                         std::ios::out | std::fstream::app);
-  particleDirection.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticleDirection_generated.dat",
+  particleDirection.open("/Users/arkasantra/arka/BkgJUSL/JUSL_sims/OutputDirectory/Neutrons/Radiogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/ParticleDirection_generated_" + std::to_string(id) + ".dat",
                          std::ios::out | std::fstream::app);
   i = 0;
   pid = 2112;

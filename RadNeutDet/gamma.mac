@@ -9,7 +9,7 @@
 
 # multi-threading
 #/run/numberOfThreads 1
-
+/myapp/setRunID 3
 # verbosities
 /control/verbose 1
 /run/verbose 1
