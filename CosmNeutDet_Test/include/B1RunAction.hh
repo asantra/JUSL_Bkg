@@ -71,6 +71,7 @@ public:
   std::vector<double> En;
   std::vector<double> Edec;
   std::vector<double> thet;
+  std::vector<double> cosTheta;
   std::vector<double> phi;
   std::vector<double> xp;
   std::vector<double> yp;

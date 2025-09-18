@@ -139,7 +139,8 @@ void DMXPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
 
   energySpectrum << energy << G4endl;
 
-  if (i < 100000)
+  // if (i < 100000)
+  if (true)
   {
     particlePosition << x << '\t' << y << '\t' << z << G4endl;
 

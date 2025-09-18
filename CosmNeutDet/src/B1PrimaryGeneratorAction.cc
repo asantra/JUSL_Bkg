@@ -56,14 +56,14 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   G4int n_particle = 1;
   fParticleGun = new G4ParticleGun(n_particle);
   // z=556.0*m;
-  depth = 554.0 * m;
+  depth = 2.0 * m;
 
   G4int thid = G4Threading::G4GetThreadId();
   // G4cout<< "Thread Id = " << thid << G4endl;
   G4String fn = to_string(thid);
   if (thid <= 9)
     fn = "0" + fn;
-  G4String path = "/home/monalisa/JUSL_Bkg/JUSLFiles/compute5/terrain_Gen_21_";
+  G4String path = "/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/compute5/terrain_Gen_21_";
   path = path + fn + ".dat";
   G4cout << path << G4endl;
 
@@ -128,20 +128,8 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
     valRnd = 0.0 + (G4UniformRand() * (3.0 * pow(10, -9)));  // most likely vertical intensity, DO CHECK
 
     val_act = Gais(enRnd, thRnd);
-  } while (valRnd >= val_act); 
+  } while (valRnd >= val_act);
   //*********************************************//
-   
-
-  // Generate point on hemisphere
-G4double R = 1550.0 * m;
-G4double theta = std::acos(1 - G4UniformRand()); // [0, π/2]
-G4double phi = 2 * pi * G4UniformRand();         // [0, 2π]
-
-G4double x = R * sin(theta) * cos(phi);
-G4double y = R * sin(theta) * sin(phi);
-G4double z = R * cos(theta); // Only upper hemisphere
-
-G4ThreeVector dir = G4ThreeVector(-x, -y, -z).unit();
 
   // mu+/mu- ratio implementation
   G4int pid = 0;
@@ -151,16 +139,14 @@ G4ThreeVector dir = G4ThreeVector(-x, -y, -z).unit();
   else
     pid = 13;
 
-  //////////////////// G4double side = 1500.0; // HalfXlength of Rock
+  G4double side = 1500.0; // HalfXlength of Rock
 
   // G4double x = -side + (G4UniformRand()*(2.0*side));
   // G4double y = -side + (G4UniformRand()*(2.0*side));
 
-  //////////////////// in >> x >> y >> z;
+  in >> x >> y >> z;
 
-  //////////////////// z = z * m + (0.5 * depth);
-  
-
+  z = z * m + (0.5 * depth);
 
   //  out << pid << "\t"<< enRnd << "\t" << thRnd << "\t"
   //      << x << "\t" << "\t" << y << G4endl;//Generated values to file
@@ -227,16 +213,16 @@ G4ThreeVector dir = G4ThreeVector(-x, -y, -z).unit();
   G4double size = 0.8;
   // G4double x0 = x*m;//-a+(G4UniformRand()*(2*a));//size * envSizeXY * (G4UniformRand()-0.5);
   // G4double y0 = y*m;//-a+(G4UniformRand()*(2*a));//size * envSizeXY * (G4UniformRand()-0.5);
-  ///////////////////// G4double phi = 2.0 * pi * (G4UniformRand()); // phi is isotropic
+  G4double phi = 2.0 * pi * (G4UniformRand()); // phi is isotropic
   // G4double z0 = 0.5*z;
 
   // setting particle directions
-  ////////////////////G4double px = sin(thRnd) * cos(phi);
-  ////////////////////G4double py = sin(thRnd) * sin(phi);
-  ////////////////////G4double pz = cos(thRnd);
+  G4double px = sin(thRnd) * cos(phi);
+  G4double py = sin(thRnd) * sin(phi);
+  G4double pz = cos(thRnd);
 
-  ////////////////////if (x < -1500.0 || x > 1500.0 || y < -1500.0 || y > 1500.0)
-  ////////////////////  G4cout << "bad shooting points are :" << x << "\t" << y << G4endl;
+  if (x < -1500.0 || x > 1500.0 || y < -1500.0 || y > 1500.0)
+    G4cout << "bad shooting points are :" << x << "\t" << y << G4endl;
   // G4cout<<(px*px+py*py+pz*pz)<<G4endl;
 
   G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
@@ -251,12 +237,7 @@ G4ThreeVector dir = G4ThreeVector(-x, -y, -z).unit();
   // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,-1));
 
   //************FOR GAISSER FORMULA PROPAGATION****//
-  ////////////////////fParticleGun->SetParticleMomentumDirection(G4ThreeVector(px, py, pz));
-
-
-  // Set particle gun parameters
-  fParticleGun->SetParticleMomentumDirection(dir);
-  
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(px, py, pz));
   fParticleGun->SetParticleEnergy(enRnd * GeV);
 
   fParticleGun->GeneratePrimaryVertex(anEvent);

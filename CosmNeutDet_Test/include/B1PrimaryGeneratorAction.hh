@@ -24,60 +24,76 @@
 // ********************************************************************
 //
 //
-/// \file B1EventAction.hh
-/// \brief Definition of the B1EventAction class
+/// \file B1PrimaryGeneratorAction.hh
+/// \brief Definition of the B1PrimaryGeneratorAction class
 
-#ifndef B1EventAction_h
-#define B1EventAction_h 1
+#ifndef B1PrimaryGeneratorAction_h
+#define B1PrimaryGeneratorAction_h 1
 
-#include "G4UserEventAction.hh"
+#include "G4VUserPrimaryGeneratorAction.hh"
+#include "G4ParticleGun.hh"
 #include "globals.hh"
 
-class B1RunAction;
-class B1PrimaryGeneratorAction;
+#include <fstream>
 
-/// Event action class
+using namespace std;
+
+class G4ParticleGun;
+class G4Event;
+class G4Box;
+
+/// The primary generator action class with particle gun.
 ///
+/// The default kinematic is a 6 MeV gamma, randomly distribued 
+/// in front of the phantom across 80% of the (X,Y) phantom size.
 
-class B1EventAction : public G4UserEventAction
+class B1PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    B1EventAction(B1RunAction* runAction);
-    virtual ~B1EventAction();
+    B1PrimaryGeneratorAction();    
+    virtual ~B1PrimaryGeneratorAction();
 
-    virtual void BeginOfEventAction(const G4Event* event);
-    virtual void EndOfEventAction(const G4Event* event);
 
-    void AddEdep1(G4double edep) { fEdep1 += edep; }
-    void AddEdep2(G4double edep) { fEdep2 += edep; }
-    void AddEdep3(G4double edep) { fEdep3 += edep; }
-    void AddEdep4(G4double edep) { fEdep4 += edep; }  
-    G4int counter;
-    G4double  Ken;
-    G4double posx, posy, posz, verx, very, verz;
-    G4double th;
-    G4double ph;
-    G4int eID, pID, tID;
+    // method from the base class
+    virtual void GeneratePrimaries(G4Event*);
 
+    //Gaisser Formula
+    G4double Gais(G4double,G4double);
+
+    //Custom flux from a histogram
+    G4double Custom_flux(G4double);
+  
+    // method to access particle gun
+    const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
+    G4int GetPriPid() const  {return PrPid;};
+    G4double GetEnergyPrimary() const  {return energy_pri;};
+    G4double GetZenithPrimary() const  {return PriZen;};
+    G4double GetPrimaryX() const  {return priX;};
+    G4double GetPrimaryY() const  {return priY;};
+    //void SetFilePointer(ifstream *file){ in=file;}
+  
   private:
-    B1RunAction* fRunAction;
-    const B1PrimaryGeneratorAction* fGenAction;
-    G4double     fEdep1;
-    G4double     fEdep2;
-    G4double     fEdep3;
-    G4double     fEdep4; 
-    G4double     en_pri;
-    G4int        PrPid;
-    G4double     PriZen;
-    G4double     priX;
-    G4double     priY;
-    G4int        eid;
-    G4int        thid;
-    
+    G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
+    G4Box*          fEnvelopeBox;
+    G4double        energy_pri;
+    G4int           PrPid;
+    G4double        PriZen;
+    G4double        priX;
+    G4double        priY;
+
+    G4double        x;
+    G4double        y;
+    G4double        z;
+
+    G4double        depth;
+
+    G4double        enRnd;
+    G4double        thRnd;
+    G4double        valRnd;
+
+    ifstream in;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-    

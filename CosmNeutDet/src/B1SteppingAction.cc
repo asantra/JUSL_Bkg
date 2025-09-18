@@ -154,24 +154,6 @@ void B1SteppingAction::UserSteppingAction(const G4Step *step)
     }
   }
 
-  // Check for neutron production
-const std::vector<const G4Track*>* secondaries = step->GetSecondaryInCurrentStep();
-for (size_t i = 0; i < secondaries->size(); ++i) {
-  const G4Track* secTrack = (*secondaries)[i];
-  if (secTrack->GetDefinition()->GetParticleName() == "neutron") {
-    G4ThreeVector creationPos = secTrack->GetPosition();
-    G4String creatorProcess = secTrack->GetCreatorProcess()->GetProcessName();
-    G4int parentID = secTrack->GetParentID();
-
-    // Example output to console
-    G4cout << "Neutron created at " << creationPos
-           << " by process " << creatorProcess
-           << " (parentID: " << parentID << ")" << G4endl;
-
-    // Optionally: save to EventAction or RunAction
-  }
-}
-
   // if (volume == fScoringVolume1)
   //  {
   //  // collect energy deposited in this step
@@ -206,5 +188,3 @@ for (size_t i = 0; i < secondaries->size(); ++i) {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-

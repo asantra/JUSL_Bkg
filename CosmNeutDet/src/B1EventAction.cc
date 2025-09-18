@@ -89,11 +89,6 @@ void B1EventAction::BeginOfEventAction(const G4Event*)
 
 }
 
-  neutronPos.clear();
-  neutronEnergy.clear();
-  neutronProcess.clear();
-  neutronParentID.clear();
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void B1EventAction::EndOfEventAction(const G4Event*)
@@ -109,8 +104,7 @@ void B1EventAction::EndOfEventAction(const G4Event*)
   G4double eCut=50.0*keV;
   //if(fEdep1>eCut && fEdep2>eCut && fEdep3>eCut && fEdep4>eCut)
   //fRunAction->out<<fEdep1/MeV<<"\t"<<fEdep2/MeV<<"\t"<<fEdep3/MeV<<"\t"<<fEdep4/MeV<<std::endl;
-
-  /* if(Ken>0 && !TMath::IsNaN(th))
+  if(Ken>0 && !TMath::IsNaN(th))
   {
     fRunAction->feID.push_back(eID);
     fRunAction->ftID.push_back(tID);
@@ -127,18 +121,8 @@ void B1EventAction::EndOfEventAction(const G4Event*)
     fRunAction->zv.push_back(verz);
 
 
-  } */
-  
-  if (!neutronPos.empty()) {
-  for (size_t i = 0; i < neutronPos.size(); ++i) {
-    G4cout << "Neutron #" << i
-           << " | Energy: " << neutronEnergy[i] / MeV << " MeV"
-           << " | Created by: " << neutronProcess[i]
-           << " | At: " << neutronPos[i]
-           << " | Parent ID: " << neutronParentID[i]
-           << G4endl;
   }
-}
+
   
 
 //  G4cout << "Events Processed = " << eid << G4endl;
