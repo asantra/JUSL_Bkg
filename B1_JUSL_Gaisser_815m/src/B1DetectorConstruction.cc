@@ -66,9 +66,9 @@ G4VPhysicalVolume *B1DetectorConstruction::Construct()
   // Envelope parameters
   //
   //G4double depth = 554.0 * m, hillmax = 132.0 * m;
-  G4double depth = 815.0 * m, hillmax = 132.0 * m;
+  G4double depth = 814.0 * m, hillmax = 132.0 * m;
   //G4double env_sizeXY = 3000.1 * m, env_sizeZ = 556.0 * m + (2.0 * hillmax);
-  G4double env_sizeXY = 3000.1 * m, env_sizeZ = 817.0 * m + (2.0 * hillmax);
+  G4double env_sizeXY = 3000.1 * m, env_sizeZ = 816.0 * m + (2.0 * hillmax);
   G4Material *env_mat = nist->FindOrBuildMaterial("G4_AIR");
 
   // Option to switch on/off checking of volumes overlaps

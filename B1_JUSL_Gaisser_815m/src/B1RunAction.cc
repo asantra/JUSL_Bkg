@@ -76,8 +76,8 @@ B1RunAction::B1RunAction()
   // G4cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << G4endl;
   // G4cout << "B1RunAction: Received run ID = " << id << G4endl;
   //=========FILES TO STORE FINAL STATES AND PRIMARIES=============//
-  final.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Muons2/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
-  primaries.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Muons2/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
+  final.open("/home/bsms.1/Monalisa/OutputDirectory/Muons_815m/815mData/NewRock/SiO2_norm/Muons_814m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
+  primaries.open("/home/bsms.1/Monalisa/OutputDirectory/Muons_815m/815mData/NewRock/SiO2_norm/GeantGeneratedMuons_814m_NR_terr_c5_" + std::to_string(id) + ".dat", fstream::app);
   // out2.open("/home/shubham/G4WORK/Sayan/MuonKinetic.dat");
 
   count = 0;
@@ -113,9 +113,6 @@ void B1RunAction::BeginOfRunAction(const G4Run *)
   // reset accumulables to their initial values
   G4AccumulableManager *accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
-
-  // Print injection and detector depth info
-  //G4cout << "Injection Depth = 555 m, Detector Depth = 815 m" << G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

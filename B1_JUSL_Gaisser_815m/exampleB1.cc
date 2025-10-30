@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 #ifdef G4MULTITHREADED
   ROOT::EnableThreadSafety();
   G4MTRunManager *runManager = new G4MTRunManager;
-  runManager->SetNumberOfThreads(4);
+  runManager->SetNumberOfThreads(6);
 #else
   G4RunManager *runManager = new G4RunManager;
 #endif

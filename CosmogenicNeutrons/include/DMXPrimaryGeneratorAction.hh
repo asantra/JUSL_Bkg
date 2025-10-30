@@ -68,6 +68,7 @@ class DMXPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction {
   G4double z;
   G4double rad;
   G4double theta;
+  G4double costheta;  
   G4double phi;
   G4double max;
   G4double en;

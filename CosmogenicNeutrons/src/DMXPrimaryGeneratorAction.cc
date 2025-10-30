@@ -38,6 +38,8 @@ double phiPos;
 double zDir;
 double slope;
 double accept;
+double enRnd;
+double valRnd;
 
 int i;
 G4int pid;
@@ -68,20 +70,20 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
       }
   */
   //  runAction=new DMXRunAction();
-  G4int thid = G4Threading::G4GetThreadId();
-  G4String fn = to_string(thid);
-  if (thid <= 9)
-    fn = "0" + fn;
-  /// uranium and thorium components to USDC website, this gives you final neutron flux
-  G4String path = "/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Comp2/FullSpec_";
-  path = path + fn + ".dat";
-  G4cout << path << G4endl;
+  // G4int thid = G4Threading::G4GetThreadId();
+  // G4String fn = to_string(thid);
+  // if (thid <= 9)
+  //   fn = "0" + fn;
+  // /// uranium and thorium components to USDC website, this gives you final neutron flux
+  // G4String path = "/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/Comp2/FullSpec_";
+  // path = path + fn + ".dat";
+  // G4cout << path << G4endl;
 
-  in.open(path);
-  if (in.is_open())
-    G4cout << "File Readable" << G4endl;
-  else
-    G4cout << "File Unreadable" << G4endl;
+  // in.open(path);
+  // if (in.is_open())
+  //   G4cout << "File Readable" << G4endl;
+  // else
+  //   G4cout << "File Unreadable" << G4endl;
 
   //  f=new TFile("/home/sayan/JUSL_Simulation/Nuetron/Paper1/Neu_histspec.root");
   //  h1=new TH1F("h1","Energy",150,0,15);
@@ -90,16 +92,16 @@ DMXPrimaryGeneratorAction::DMXPrimaryGeneratorAction()
   //  max=h1->GetMaximum();
 
   
-  energySpectrum.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/NeuSpec_generated6.dat",
+  energySpectrum.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmNeuSpec_generated150CM.dat",
                       std::ios::out | std::fstream::app);
-  particlePosition.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/ParticlePosition_generated6.dat",
+  particlePosition.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmParticlePosition_generated150CM.dat",
                         std::ios::out | std::fstream::app);
-  particleDirection.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/ParticleDirection_generated6.dat",
+  particleDirection.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmParticleDirection_generated150CM.dat",
                          std::ios::out | std::fstream::app);
   
   
   i = 0;
-  pid = 13;
+  //pid = 13;
 }
 
 DMXPrimaryGeneratorAction::~DMXPrimaryGeneratorAction()
@@ -151,11 +153,19 @@ void DMXPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
   do
   {
     enRnd = 0.0 + (G4UniformRand() * (10000 - 0));
-    valRnd = 0.0 + (G4UniformRand() * (3.0 * pow(10, -9)));  // DO CHECK
+    valRnd = 0.0 + (G4UniformRand() * (1 * pow(10, -9)));  // DO CHECK
 
     val_act = Custom_flux(enRnd);
   } while (valRnd >= val_act); 
 
+  // mu+/mu- ratio implementation
+  //i = 0; 
+  //pid = 0;
+  G4double chance = G4UniformRand();
+  if (chance < 0.583)
+    pid = -13;
+  else
+    pid = 13;
 
   //  energy = 5000.0*eV;
 //////////NOTE //////
@@ -174,7 +184,7 @@ void DMXPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
   else
   */
   
-  rad = 470.0 + G4UniformRand() * (500.0 - 470.0); // change for outer radius
+  rad = 220.0 + G4UniformRand() * (370.0 - 220.0); // change for outer radius
   // --- Position on the sphere ---
   G4double phiPos   = G4UniformRand() * 2.0 * M_PI;
   G4double costhPos = 2.0 * G4UniformRand() - 1.0;  // uniform in [-1,1]
@@ -184,13 +194,14 @@ void DMXPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
   y = rad * std::sin(thetaPos) * std::sin(phiPos);
   z = rad * costhPos;
 
-  in >> enRnd;
+  //in >> enRnd;
 
-  energy = enRnd * GeV;
-
+  energy = enRnd;
+  //energy = hEnergy->GetRandom() * GeV;
   
   phi = G4UniformRand() * 2.0 * M_PI;  // rpos->Rndm()*2.0*M_PI ;
-  theta = M_PI + (G4UniformRand() *  M_PI );
+  // G4double costheta = 2.0 * G4UniformRand() - 1.0; 
+  theta = std::acos(costhPos);
 
   energySpectrum << energy << G4endl;
 
@@ -203,14 +214,19 @@ void DMXPrimaryGeneratorAction::GeneratePrimaries(G4Event *anEvent)
                       << phi << G4endl;
     i++;
   }
+  // G4cout << "Event: " << anEvent->GetEventID()
+  //      << " | pid = " << pid
+  //      << " | enRnd = " << enRnd
+  //      << G4endl;
+
   G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
   G4ParticleDefinition *particle = particleTable->FindParticle(pid);
-  // G4cout<<en/GeV<<"\t"<<particle->GetParticleName()<<endl;
+  //G4cout<<energy/GeV<<"\t"<<particle->GetParticleName()<<endl;
   particleGun->SetParticleDefinition(particle);
   particleGun->SetParticlePosition(G4ThreeVector(x * cm, y * cm, z * cm));
   particleGun->SetParticleMomentumDirection(G4ThreeVector(sin(theta) * cos(phi),
                                                           sin(theta) * sin(phi),
                                                           cos(theta)));
-  particleGun->SetParticleEnergy(energy);
+  particleGun->SetParticleEnergy(energy * GeV);
   particleGun->GeneratePrimaryVertex(anEvent);
 }

@@ -54,13 +54,13 @@ void DMXRunAction::BeginOfRunAction(const G4Run* aRun)
 //  pmtHitSet.open("/home/sayan/JUSL_Simulation/Neutron/Shielding/NeutronHitSet.dat",
 //		 std::ios::out | std::ios::trunc);
 
-  NeutronEnTr.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/NeutronTrSpec6.dat",
+  NeutronEnTr.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmNeutronTrSpec150CM.dat",
                    std::ios::out | std::fstream::app);
-  NeutronEnDet.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/NeutronDetSpec6.dat",
+  NeutronEnDet.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmNeutronDetSpec150CM.dat",
                     std::ios::out | std::fstream::app);
-  NeutronBack.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/NeutronBackScatter6.dat",
+  NeutronBack.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmNeutronBackScatter150CM.dat",
                    std::ios::out | std::fstream::app);
-  NeutronDetBack.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/testrun/DetBackScatter6.dat",
+  NeutronDetBack.open("/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/CosmNeut/Cosmogen/DataFiles/MTFiles/Hemisphere/2.5mThick/SiO2_norm/LowDen/Comp1/CosmDetBackScatter150CM.dat",
                    std::ios::out | std::fstream::app);
 
 
