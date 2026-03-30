@@ -1,0 +1,611 @@
+
+// --------------------------------------------------------------
+//   GEANT 4 - Underground Dark Matter Detector Advanced Example
+//
+//   SHUBHAM DUTTA
+// --------------------------------------------------------------
+//
+// DetectorConstruction.cc
+// --------------------------------------------------------------
+
+#include "DMXDetectorConstruction.hh"
+
+#include "G4Material.hh"
+#include "G4MaterialTable.hh"
+#include "G4NistManager.hh"
+#include "G4Element.hh"
+#include "G4Isotope.hh"
+#include "G4UnitsTable.hh"
+#include "G4Box.hh"
+#include "G4Tubs.hh"
+#include "G4Sphere.hh"
+#include "G4UnionSolid.hh"
+#include "G4SubtractionSolid.hh"
+
+#include "G4LogicalVolume.hh"
+#include "G4PVPlacement.hh"
+#include "G4AssemblyVolume.hh"
+#include "G4ThreeVector.hh"
+#include "G4RotationMatrix.hh"
+#include "G4Transform3D.hh"
+#include "G4LogicalBorderSurface.hh"
+#include "G4LogicalSkinSurface.hh"
+#include "G4OpBoundaryProcess.hh"
+
+#include "G4TransportationManager.hh"
+#include "G4ClassicalRK4.hh"
+#include "G4ChordFinder.hh"
+
+#include "G4VisAttributes.hh"
+#include "G4Colour.hh"
+
+#include "G4UserLimits.hh"
+
+#include "G4RunManager.hh"
+#include "G4SystemOfUnits.hh"
+
+
+DMXDetectorConstruction::DMXDetectorConstruction()
+{
+theUserLimitsForRoom     = 0;
+theMaxTimeCuts      = DBL_MAX;
+theMaxStepSize      = DBL_MAX;
+theRoomTimeCut      = 1000. * nanosecond;
+theMinEkine         = 250.0*eV; // minimum kinetic energy required in volume
+theRoomMinEkine     = 250.0*eV; // minimum kinetic energy required in volume
+
+
+}
+
+
+DMXDetectorConstruction::~DMXDetectorConstruction()
+{
+delete theUserLimitsForRoom;
+}
+
+
+void DMXDetectorConstruction::DefineMaterials()
+{
+
+
+#include "DMXDetectorMaterial.icc"
+
+}
+
+G4VPhysicalVolume* DMXDetectorConstruction::Construct()
+{
+DefineMaterials();
+
+// make colours
+G4Colour  white   (1.0, 1.0, 1.0) ;
+G4Colour  grey    (0.5, 0.5, 0.5) ;
+G4Colour  lgrey   (.85, .85, .85) ;
+G4Colour  red     (1.0, 0.0, 0.0) ;
+G4Colour  blue    (0.0, 0.0, 1.0) ;
+G4Colour  cyan    (0.0, 1.0, 1.0) ;
+G4Colour  magenta (1.0, 0.0, 1.0) ;
+G4Colour  yellow  (1.0, 1.0, 0.0) ;
+G4Colour  orange  (.75, .55, 0.0) ;
+G4Colour  lblue   (0.0, 0.0, .75) ;
+G4Colour  lgreen  (0.0, .75, 0.0) ;
+G4Colour  green   (0.0, 1.0, 0.0) ;
+G4Colour  brown   (0.7, 0.4, 0.1) ;
+ // World - Vacuum **************************************************
+
+G4double world_innerRadius = 0.*cm;
+G4double world_outerRadius = 440.*cm;
+ /*G4Sphere* world = new G4Sphere("World",
+       world_innerRadius,
+       world_outerRadius,
+       0.*deg, 360.*deg,
+                               0.*deg, 90.*deg);*/
+G4Box* world = new G4Box("World",
+                         430.*cm,430.*cm,430.*cm);//CHANGE HERE
+
+/*
+G4double worldLength = 700.0*cm;
+G4double worldWidth  = 700.0*cm;
+G4double worldHeight = 400.0*cm;
+ G4Box* world = new G4Box( "World",
+        0.5*worldLength,
+        0.5*worldWidth,
+        0.5*worldHeight );
+*/
+world_log  = new G4LogicalVolume(world, world_mat, "world_log");
+world_phys = new G4PVPlacement(0,
+       G4ThreeVector(0.,0.,0.),
+       "world_phys",
+       world_log,
+       NULL,
+       false,
+       0);
+
+
+G4VisAttributes* world_vat= new G4VisAttributes(cyan);
+world_vat->SetVisibility(true);
+world_vat->SetForceSolid(false);
+world_log->SetVisAttributes(world_vat);
+ // Cavern - Rock ***********************************************************
+
+G4double cavern_innerRadius = 220.1*cm;
+G4double cavern_outerRadius = 420.1*cm;//CHANGE HERE
+
+G4Sphere* cavern = new G4Sphere("Cavern",
+        cavern_innerRadius,
+        cavern_outerRadius,
+        0.*deg, 360.*deg,
+                                0.*deg, 90.*deg);
+
+/*
+G4double cavernThickness = 100.0*cm;
+ G4double cavernLength = 500.0*cm + 2.0*cavernThickness;
+G4double cavernWidth  = 500.0*cm + 2.0*cavernThickness;
+G4double cavernHeight = 200.0*cm + 2.0*cavernThickness;
+ G4Box* cavern = new G4Box( "Cavern",
+         0.5*cavernLength,
+         0.5*cavernWidth,
+         0.5*cavernHeight );
+*/
+
+cavern_log  = new G4LogicalVolume(cavern, cavern_mat, "cavern_log");
+cavern_phys = new G4PVPlacement(0,
+        G4ThreeVector(0.,0.,0.),
+        "cavern_phys",
+        cavern_log,
+        world_phys,
+        false,
+        0);
+
+G4VisAttributes* cavern_vat= new G4VisAttributes(red);
+cavern_vat->SetVisibility(true);
+cavern_vat->SetForceSolid(false);
+cavern_log->SetVisAttributes(cavern_vat);
+fScoringVolumeCav = cavern_log;
+
+// Lab Space - AIR ********************************************************
+
+G4double lab_innerRadius = 0.*cm;
+G4double lab_outerRadius = 220.1*cm;
+ G4Sphere* lab  = new G4Sphere( "lab",
+       lab_innerRadius,
+       lab_outerRadius,
+       0.*deg, 360.*deg,
+                               0.*deg, 90.*deg );
+
+/*
+G4double labLength = cavernLength - 2.0*cavernThickness;
+G4double labWidth  = cavernWidth  - 2.0*cavernThickness;
+G4double labHeight = cavernHeight - 2.0*cavernThickness;
+
+G4Box* lab = new G4Box( "lab",
+      0.5*labLength,
+      0.5*labWidth,
+      0.5*labHeight );
+*/
+
+
+lab_log  = new G4LogicalVolume(lab, lab_mat, "lab_log");
+lab_phys = new G4PVPlacement(0,
+           G4ThreeVector(0.,0.,0.),
+           "lab_phys",
+           lab_log,
+           world_phys,
+           false,
+           0);
+
+G4VisAttributes* lab_vat= new G4VisAttributes(white);
+lab_vat->SetVisibility(true);
+lab_vat->SetForceSolid(false);
+lab_log->SetVisAttributes(lab_vat);
+fScoringVolumeLab = lab_log;
+
+//Floor***************************************
+
+G4double floor_innerRadius = 0.*cm;
+G4double floor_outerRadius = 420.1*cm;//CHANGE HERE
+
+G4Tubs* floor = new G4Tubs("floor",
+                           floor_innerRadius,
+                           floor_outerRadius,
+                           125.*cm,
+                           0.0*deg, 360.*deg);
+floor_log = new G4LogicalVolume(floor, cavern_mat, "floor_log");
+floor_phys= new G4PVPlacement(0,G4ThreeVector(0.,0.,-125.*cm),
+                              "floor_phys",
+                              floor_log,
+                              world_phys,
+                              false,
+                              0);
+
+G4VisAttributes *floor_vat = new G4VisAttributes(red);
+floor_vat->SetVisibility(true);
+floor_vat->SetForceSolid(true);
+floor_log->SetVisAttributes(floor_vat);
+fScoringVolumeFlo = floor_log;
+
+ //Detector ************************************************************
+ /*
+G4double pmt_innerRadius = 0.0;
+G4double pmt_outerRadius = 2.5*cm;
+
+G4Sphere* pmt_sol = new G4Sphere("PMT",
+                                 pmt_innerRadius,
+                                 pmt_outerRadius,
+                                 0.*deg, 360.*deg,
+                                 0.*deg, 180.*deg);
+
+
+//  G4Box* air = new G4Box("air", air_halfX, air_halfY, air_halfZ);
+
+
+//  air_log = new G4LogicalVolume(air, lab_mat, "air_log");
+//  air_phys = new G4PVPlacement(0,
+//        G4ThreeVector(0.,0.,0.),
+//        "air_phys",
+//        air_log,
+//        steel_phys,
+//        false,
+//        0);
+
+
+// // Visualisation
+//  G4VisAttributes* air_vat = new G4VisAttributes(yellow);
+//  air_vat->SetForceSolid(false);
+//  air_vat->SetVisibility(true);
+//  air_log->SetVisAttributes(steel_vat);
+
+
+//  fScoringVolumeAir = air_log;
+
+
+//  G4Tubs* pmt_sol = new G4Tubs("PMT",
+//                                pmt_innerRadius,
+//                                pmt_outerRadius,
+//                                pmt_halfz,
+//                                0.*deg,
+//                                360.*deg);
+
+
+//***********************AIR GAP INSIDE THE SHILEDING ***************************** */
+G4ThreeVector glass_pos = G4ThreeVector(0.*cm , 0.*cm , 60.*cm);
+// G4ThreeVector hdpe_pos = G4ThreeVector(0.*cm , 0.*cm , 60.*cm);
+
+G4RotationMatrix *rotm = new G4RotationMatrix();
+rotm->rotateY(90.0*deg);
+
+//********************** SHIELDING Layer 1 : Air 1 ******************* //
+G4double air1_halfX = 50.*cm;
+G4double air1_halfY = 50.*cm;
+G4double air1_halfZ = 0.5 *cm;
+
+G4Box* air1 = new G4Box("air1", air1_halfX, air1_halfY, air1_halfZ);
+
+G4ThreeVector air1_pos = G4ThreeVector(0.*cm , 0.*cm , 190.*cm);
+
+air1_log = new G4LogicalVolume(air1, lab_mat, "air1_log");
+air1_phys = new G4PVPlacement(0,
+       air1_pos,
+       "air1_phys",
+       air1_log,
+       lab_phys,
+       false,
+       0);
+
+G4VisAttributes *air1_vat = new G4VisAttributes(cyan);
+air1_vat->SetVisibility(true);
+air1_vat->SetForceSolid(true);
+air1_log->SetVisAttributes(air1_vat);
+fScoringVolumeAir1 = air1_log;
+
+//********Layer 2 : PP1 *****//
+
+G4double pp1_halfX = 50.*cm;
+G4double pp1_halfY = 50.*cm;
+G4double pp1_halfZ = 20.*cm;
+
+G4Box* pp1 = new G4Box("pp1", pp1_halfX, pp1_halfY, pp1_halfZ);
+
+G4ThreeVector pp1_pos = G4ThreeVector(0.*cm , 0.*cm , 169.5*cm);
+
+pp1_log = new G4LogicalVolume(pp1, pp_mat, "pp1_log");
+pp1_phys = new G4PVPlacement(0,
+       pp1_pos,
+       "pp1_phys",
+       pp1_log,
+       lab_phys,
+       false,
+       0);
+
+G4VisAttributes *pp1_vat = new G4VisAttributes(lgrey);
+pp1_vat->SetVisibility(true);
+pp1_vat->SetForceSolid(true);
+pp1_log->SetVisAttributes(pp1_vat);
+fScoringVolumePP1 = pp1_log;
+
+// ********** layer 3: Air 2 ****************//
+G4double air2_halfX = 50.*cm;
+G4double air2_halfY = 50.*cm;
+G4double air2_halfZ = 0.5 *cm;
+
+G4Box* air2 = new G4Box("air2", air2_halfX, air2_halfY, air2_halfZ);
+
+G4ThreeVector air2_pos = G4ThreeVector(0.*cm , 0.*cm , 149.*cm);
+
+air2_log = new G4LogicalVolume(air2, lab_mat, "air2_log");
+air2_phys = new G4PVPlacement(0,
+       air2_pos,
+       "air2_phys",
+       air2_log,
+       lab_phys,
+       false,
+       0);
+
+G4VisAttributes *air2_vat = new G4VisAttributes(cyan);
+air2_vat->SetVisibility(true);
+air2_vat->SetForceSolid(true);
+air2_log->SetVisAttributes(air2_vat);
+fScoringVolumeAir2 = air2_log;
+
+// // ******************** Layer 4 : Pb ************//
+// G4double pb_halfX = 50.*cm;
+// G4double pb_halfY = 50.*cm;
+// G4double pb_halfZ = 15. *cm;
+
+// G4Box* pb = new G4Box("pb", pb_halfX, pb_halfY, pb_halfZ);
+
+// G4ThreeVector pb_pos = G4ThreeVector(0.*cm , 0.*cm , 133.5*cm);
+
+// pb_log = new G4LogicalVolume(pb, pb_mat, "pb_log");
+// pb_phys = new G4PVPlacement(0,
+//        pb_pos,
+//        "pb_phys",
+//        pb_log,
+//        lab_phys,
+//        false,
+//        0);
+
+// G4VisAttributes *pb_vat = new G4VisAttributes(brown);
+// pb_vat->SetVisibility(true);
+// pb_vat->SetForceSolid(true);
+// pb_log->SetVisAttributes(pb_vat);
+// fScoringVolumePb = pb_log;
+
+// // ********** layer 4: Air 3 ****************//
+// G4double air3_halfX = 50.*cm;
+// G4double air3_halfY = 50.*cm;
+// G4double air3_halfZ = 0.5 *cm;
+
+// G4Box* air3 = new G4Box("air3", air3_halfX, air3_halfY, air3_halfZ);
+
+// G4ThreeVector air3_pos = G4ThreeVector(0.*cm , 0.*cm , 118.*cm);
+
+// air3_log = new G4LogicalVolume(air3, lab_mat, "air3_log");
+// air3_phys = new G4PVPlacement(0,
+//        air3_pos,
+//        "air3_phys",
+//        air3_log,
+//        lab_phys,
+//        false,
+//        0);
+
+// G4VisAttributes *air3_vat = new G4VisAttributes(cyan);
+// air3_vat->SetVisibility(true);
+// air3_vat->SetForceSolid(true);
+// air3_log->SetVisAttributes(air3_vat);
+// fScoringVolumeAir3 = air3_log;
+
+// /********Layer 5 : PP2 *****/
+
+// G4double pp2_halfX = 50.*cm;
+// G4double pp2_halfY = 50.*cm;
+// G4double pp2_halfZ = 10.*cm;
+
+// G4Box* pp2 = new G4Box("pp2", pp2_halfX, pp2_halfY, pp2_halfZ);
+
+// G4ThreeVector pp2_pos = G4ThreeVector(0.*cm , 0.*cm , 107.5*cm);
+
+// pp2_log = new G4LogicalVolume(pp2, pp_mat, "pp2_log");
+// pp2_phys = new G4PVPlacement(0,
+//        pp2_pos,
+//        "pp2_phys",
+//        pp2_log,
+//        lab_phys,
+//        false,
+//        0);
+
+// G4VisAttributes *pp2_vat = new G4VisAttributes(lgrey);
+// pp2_vat->SetVisibility(true);
+// pp2_vat->SetForceSolid(true);
+// pp2_log->SetVisAttributes(pp2_vat);
+// fScoringVolumePP2 = pp2_log;
+
+// // ********** layer 6: Air 4 ****************//
+// G4double air4_halfX = 50.*cm;
+// G4double air4_halfY = 50.*cm;
+// G4double air4_halfZ = 0.5 *cm;
+
+// G4Box* air4 = new G4Box("air4", air4_halfX, air4_halfY, air4_halfZ);
+
+// G4ThreeVector air4_pos = G4ThreeVector(0.*cm , 0.*cm , 97.*cm);
+
+// air4_log = new G4LogicalVolume(air4, lab_mat, "air4_log");
+// air4_phys = new G4PVPlacement(0,
+//        air4_pos,
+//        "air4_phys",
+//        air4_log,
+//        lab_phys,
+//        false,
+//        0);
+
+// G4VisAttributes *air4_vat = new G4VisAttributes(cyan);
+// air4_vat->SetVisibility(true);
+// air4_vat->SetForceSolid(true);
+// air4_log->SetVisAttributes(air4_vat);
+// fScoringVolumeAir4 = air4_log;
+
+//**************************Glass around the pmt ********************************** */
+G4double glass_innerRadius = 35.*mm;
+G4double glass_outerRadius = 40.*mm;
+G4double glass_halfz       = 55.*mm;
+
+G4Tubs* glass_sol = new G4Tubs("Glass",
+                              glass_innerRadius,
+                              glass_outerRadius,
+                              glass_halfz,
+                              0.*deg,
+                              360.*deg);
+
+glass_log  = new G4LogicalVolume( glass_sol, glass_mat, "glass_log" );
+glass_phys = new G4PVPlacement(0,
+                   glass_pos,
+                   "glass_phys",
+                   glass_log,
+                   lab_phys,
+                   false,
+                   0);
+G4VisAttributes* glass_vat= new G4VisAttributes(blue);
+glass_vat->SetForceSolid(true);
+glass_vat->SetVisibility(true);
+glass_log->SetVisAttributes(glass_vat);
+fScoringVolumeGlass = glass_log;
+
+// ************************ Cylindrical Detector *****************************
+
+G4double pmt_innerRadius = 0.*mm;
+G4double pmt_outerRadius = 35.*mm;
+G4double pmt_halfz       = 50.*mm;
+
+G4Tubs* pmt_sol = new G4Tubs("PMT",
+                              pmt_innerRadius,
+                              pmt_outerRadius,
+                              pmt_halfz,
+                              0.*deg,
+                              360.*deg);
+
+pmt_log  = new G4LogicalVolume( pmt_sol, pmt_mat, "pmt_log" );
+pmt_phys = new G4PVPlacement(0,
+                   G4ThreeVector(0.,0.,0.),
+                   "pmt_phys",
+                   pmt_log,
+                   glass_phys,
+                   false,
+                   0);
+G4VisAttributes* pmt_vat= new G4VisAttributes(yellow);
+pmt_vat->SetForceSolid(true);
+pmt_vat->SetVisibility(true);
+pmt_log->SetVisAttributes(pmt_vat);
+
+//Setting PMT tube as scoring volume for tracking
+fScoringVolumePMT = pmt_log;
+
+//************************************************************************************************ */
+
+  // G4double pmt_innerRadius = 0.*mm;
+  // G4double pmt_outerRadius = 70.*mm;
+  // G4double pmt_halfz       = 300.*mm;
+
+  // G4Tubs* pmt_sol = new G4Tubs("PMT",
+  //                               pmt_innerRadius,
+  //                               pmt_outerRadius,
+  //                               pmt_halfz,
+  //                               0.*deg,
+  //                               360.*deg);
+  
+  // G4ThreeVector pmt_pos = G4ThreeVector(0.*cm , 0.*cm , 60.*cm);
+
+  // G4RotationMatrix *rotm = new G4RotationMatrix();
+  // rotm->rotateY(90.0*deg);
+
+  
+  // pmt_log  = new G4LogicalVolume( pmt_sol, pmt_mat, "pmt_log" );
+  // pmt_phys = new G4PVPlacement(rotm,
+  //                  pmt_pos,
+  //                  "pmt_phys",
+  //                  pmt_log,
+  //                  lab_phys,
+  //                  false,
+  //                  0);
+  
+  // G4VisAttributes* pmt_vat= new G4VisAttributes(yellow);
+  // pmt_vat->SetForceSolid(true);
+  // pmt_vat->SetVisibility(true);
+  // pmt_log->SetVisAttributes(pmt_vat);
+
+  // //Setting PMT tube as scoring volume for tracking
+  // fScoringVolumePMT = pmt_log;
+
+//**************PLACEMENT OF PMT INSIDE THE STEEL SHIELDING**************/
+
+// pmt_log  = new G4LogicalVolume( pmt_sol, pmt_mat, "pmt_log" );
+// pmt_phys = new G4PVPlacement(0,
+//                  G4ThreeVector(0.,0.,0.),
+//                  "pmt_phys",
+//                  pmt_log,
+//                  steel_phys,
+//                  false,
+//                  0);
+ // G4VisAttributes* pmt_vat= new G4VisAttributes(yellow);
+// pmt_vat->SetForceSolid(true);
+// pmt_vat->SetVisibility(true);
+// pmt_log->SetVisAttributes(pmt_vat);
+
+
+// //Setting PMT tube as scoring volume for tracking
+// fScoringVolumePMT = pmt_log;
+
+// attach user limits ...................................................
+ G4cout << G4endl << "User Limits: " << G4endl
+ << "\t theMaxTimeCuts:     " << G4BestUnit(theMaxTimeCuts,"Time")
+ << G4endl
+ << "\t theRoomTimeCut:     " << G4BestUnit(theRoomTimeCut,"Time")
+ << G4endl
+ << "\t theMaxStepSize:     " << G4BestUnit(theMaxStepSize,"Length")
+ << G4endl
+ << "\t theMinEKine:        " << G4BestUnit(theMinEkine,"Energy") 
+ << G4endl
+ << "\t minRoomMinEKine:    " << G4BestUnit(theRoomMinEkine,"Energy")
+ << G4endl << G4endl;
+ if (theUserLimitsForRoom != 0) delete theUserLimitsForRoom;
+ theUserLimitsForRoom = new G4UserLimits(theMaxStepSize,   // step length max
+          DBL_MAX,          // track length max
+          theRoomTimeCut,   // Time cut
+          theRoomMinEkine); // min energy
+
+world_log->SetUserLimits(theUserLimitsForRoom);
+lab_log->SetUserLimits(theUserLimitsForRoom);
+cavern_log->SetUserLimits(theUserLimitsForRoom);
+air1_log->SetUserLimits(theUserLimitsForRoom);
+pp1_log->SetUserLimits(theUserLimitsForRoom);
+air2_log->SetUserLimits(theUserLimitsForRoom);
+// pb_log->SetUserLimits(theUserLimitsForRoom);
+// air3_log->SetUserLimits(theUserLimitsForRoom);
+// pp2_log->SetUserLimits(theUserLimitsForRoom);
+// air4_log->SetUserLimits(theUserLimitsForRoom);
+return world_phys;
+}
+
+// specific method to G4UserLimits:= SetUserMinEkine
+void DMXDetectorConstruction::SetRoomEnergyCut(G4double val)
+{
+// set minimum charged particle energy cut - NB: for ROOM
+theRoomMinEkine = val;
+if (theUserLimitsForRoom != 0)
+  {
+    theUserLimitsForRoom->SetUserMinEkine(val);
+    G4cout << " Changing Room energy cut to: " << G4BestUnit(val,"Energy")
+     << G4endl;
+  }
+}
+
+// specific method to G4UserLimits:= SetUserMaxTime
+void DMXDetectorConstruction::SetRoomTimeCut(G4double val)
+{
+// set room time cut:
+theRoomTimeCut = val;
+if (theUserLimitsForRoom != 0)
+  {
+    theUserLimitsForRoom->SetUserMaxTime(val);
+    G4cout << " Changing Room Time cut to: " << G4BestUnit(val,"Time")
+     << G4endl;
+  }
+}
