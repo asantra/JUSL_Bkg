@@ -63,7 +63,7 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   G4String fn = to_string(thid);
   if (thid <= 9)
     fn = "0" + fn;
-  G4String path = "/home/sayang/JUSL_Simulation/Terrain/compute5/terrain_Gen_21_";
+  G4String path = "/home/slab/Monalisa/JUSL_Bkg/JUSLFiles/compute5/terrain_Gen_21_";
   path = path + fn + ".dat";
   G4cout << path << G4endl;
 

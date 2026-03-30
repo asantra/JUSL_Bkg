@@ -148,8 +148,23 @@
    The selection of the user command interface is then done automatically 
    according to the Geant4 configuration or it can be done explicitly via 
    the third argument of the G4UIExecutive constructor (see exampleB4a.cc). 
+
+
+ C- FILE PATH CONFIGURATION
+
+   - In B1_JUSL_Gaisser/src/B1PrimaryGeneratorAction.cc : //Replace with the absolute path to your local terrain files.
+
+     G4String path = "/home/monalisa/JUSL_Bkg/JUSLFiles/compute5/terrain_Gen_21_";
+
+
+   - In B1_JUSL_Gaisser/src/B1RunAction.cc : // Replace both paths with the location where you want the output files to be saved.
+
+     final.open("/home/monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/Muons_554m_NR_terr_c5_1.dat", fstream::app);
+     primaries.open("/home/monalisa/JUSL_Bkg/JUSLFiles/Muons/555mData/NewRock/SiO2_norm/GeantGeneratedMuons_554m_NR_terr_c5_1.dat", fstream::app);
+
  
- C- HOW TO RUN
+ D- HOW TO RUN 
+ (**Note**: The interactive mode with visualization (`./exampleB1`) will only work if Geant4 is built with OpenGL visualization support. If you encounter a segmentation fault, use the batch mode instead:)
 
     - Execute exampleB1 in the 'interactive mode' with visualization:
         % ./exampleB1
@@ -162,11 +177,11 @@
       or
         Idle> /control/execute run1.mac
         ....
-        Idle> exit
+        Idle> exit      /////INTERACTIVE MODE DIDN'T WORK (SHOWED SEGMENTATION FAULT)
 
     - Execute exampleB1  in the 'batch' mode from macro files 
       (without visualization)
         % ./exampleB1 run2.mac
-        % ./exampleB1 exampleB1.in > exampleB1.out
+        % ./exampleB1 exampleB1.in > exampleB1.out        //////// BATCH MODE WORKED 
 
 	

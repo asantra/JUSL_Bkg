@@ -1,0 +1,44 @@
+//
+// --------------------------------------------------------------
+//   GEANT 4 - Underground Dark Matter Detector Advanced Example
+//
+// --------------------------------------------------------------
+//
+//  SHUBHAM DUTTA  
+//
+// SteppingAction header
+// --------------------------------------------------------------
+
+#ifndef DMXSteppingAction_h
+#define DMXSteppingAction_h 1
+
+#include "G4UserSteppingAction.hh"
+#include "globals.hh"
+
+#include "G4LogicalVolume.hh"
+
+
+class DMXEventAction;
+class DMXRunAction;
+
+class DMXSteppingAction : public G4UserSteppingAction
+{
+
+public:
+  DMXSteppingAction(DMXRunAction*, DMXEventAction*);
+  virtual ~DMXSteppingAction();
+  
+  virtual void UserSteppingAction(const G4Step*);
+  
+private:
+  DMXRunAction*      runAction;  //pointer to run action
+  DMXEventAction*    evtAction;  //pointer to event action
+    
+  G4LogicalVolume* fScoringVolume;
+  G4LogicalVolume* fScoringVolumePMT;
+  G4int pTrackID;
+  G4int pTrackID_pmt;
+  G4double electronEnergy;
+};
+
+#endif

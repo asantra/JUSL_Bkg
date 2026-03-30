@@ -1,0 +1,8 @@
+So all teh information for all the codes is written here. 
+1. MuonEnergySpectrum.py            ---> This is the Muon flux at 555m. 
+2. MuonFlux_815m.py                 ---> This is the Muon Flux at 815m, you can combine this two into one and just change the input rootfile for 555m and 815m respectively. 
+3. RadiogenicNeutronFlux.py         ---> This is the Radiogenic neutron flux at 555m, this might change for 815m if the composition and everything changes
+4. CosmogenicNeutronFlux.py         ---> Gives cosmogenic neutron flux at 555m and 815m according to whatevere youre giving the input root file. 
+5. FinalTotalFlux.py                ---> This is the total energy spectrum of all the backgrounds combined at 815m or 555m depending on whatever fluxes you are using. 
+6. RadNeutDet_withShielding_flux.py ---> This is the flux of nuetrons after shielding but with a different unit. It was using steel+hdpe and det of glycerin material. 
+7. MuonEnergyShielding2Dhist.py     ---> This will give the 2D histogram plot between dE and initial energy of muons after Pb shielding at surface or 815m dpeending on whatever input file you give. 

@@ -1,0 +1,44 @@
+###############################################################################
+#                                                                             #
+# gamma.mac                                                                   #
+# Single gammas from internal calibrator                                      #
+# output in file hits.out                                                     #
+#                                                                             #
+###############################################################################
+
+
+# multi-threading
+#/run/numberOfThreads 1
+
+# verbosities
+/control/verbose 1
+/run/verbose 1
+/tracking/verbose 0
+#/hits/verbose 1
+
+# gun: particle
+#/gun/verbose 0
+/gun/particle neutron
+#/dmx/gun/energytype Mono
+#/dmx/gun/energy 662.0 keV
+
+# gun: isotropic
+#/dmx/gun/angtype iso
+#
+# OR gun: shoot up
+#/dmx/gun/angtype direction
+#/dmx/gun/direction 0 0 1
+
+# gun: source
+#/dmx/gun/type Volume
+#/dmx/gun/shape Cylinder
+#/dmx/gun/radius 5.0 mm
+#/dmx/gun/halfz 2.5 mm
+#/dmx/gun/centre 0 0 -5 mm
+#/dmx/gun/confine physVolScint
+
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID
+
+/run/beamOn 100
+

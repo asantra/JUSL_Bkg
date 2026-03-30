@@ -1,0 +1,11 @@
+// --------------------------------------------------------------
+
+  G4Material*     world_mat;            // materials used
+  G4Material*       lab_mat;
+  G4Material*       pmt_mat;
+  G4Material*    cavern_mat;
+  G4Material*     steel_mat;
+  G4Material*      hdpe_mat;
+  G4Material*     glass_mat;
+  G4Material*        pp_mat;
+  G4Material*        pb_mat; 
